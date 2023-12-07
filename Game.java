@@ -51,7 +51,7 @@ public class Game {
         } while (!sessionOver);
     }
 
-    private static void createGameBoard(String[][] board) {
+    static void createGameBoard(String[][] board) {
         int counter = 1;
 
         for (int i = 0; i < 3; i++) {
@@ -62,7 +62,7 @@ public class Game {
             }
     }
 
-    private static void printBoard(String[][] board) {
+    static void printBoard(String[][] board) {
         for (int i=0; i<3; i++) {
             for (int f =0; f < 3; f++) {
                 System.out.print(" " + board[i][f] + " ");
@@ -78,7 +78,7 @@ public class Game {
         }
     }
 
-    private static boolean checkGameOver(String[][] board) {
+    static boolean checkGameOver(String[][] board) {
         boolean result = false;
 
         //Verify diagonals
@@ -102,7 +102,7 @@ public class Game {
         return result;
     }
 
-    private static void onePlayerGame(String[][] board, int x) {
+    static void onePlayerGame(String[][] board, int x) {
         int position = x - 1;
         Random random = new Random();
 
@@ -144,7 +144,7 @@ public class Game {
         }
     }
 
-    private static void twoPlayerGamePlayer1(String board[][], int player1) {
+    static void twoPlayerGamePlayer1(String board[][], int player1) {
         player1 = player1 - 1;
 
         if (player1 >= 0 && player1 < 9) {
@@ -167,7 +167,7 @@ public class Game {
         }
     }
 
-    private static void twoPlayerGamePlayer2(String board[][], int player2) {
+    static void twoPlayerGamePlayer2(String board[][], int player2) {
         player2 = player2 - 1;
 
         if (player2 >= 0 && player2 < 9) {
