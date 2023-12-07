@@ -1,3 +1,4 @@
+import java.util.Random;
 import java.util.Scanner;
 
 public class Game {
@@ -19,15 +20,10 @@ public class Game {
 
                 if (option == 1) {
                     while (!gameOver) {
+                        printBoard(board);
                         System.out.print("Please enter a position: ");
                         int position = sc.nextInt();
                         onePlayerGame(board, position);
-                        printBoard(board);
-
-                        if (checkGameOver(board)) {
-                            System.out.println("Game over!");
-                            gameOver = true;
-                        }
                     }
                 } else if (option == 2) {
                     System.out.println("Coming soon.");
@@ -92,24 +88,42 @@ public class Game {
 
     private static void onePlayerGame(String[][] board, int x) {
         int position = x - 1;
+        Random random = new Random();
+
         if (position >= 0 && position < 9) {
             int row = position / 3;
             int col = position % 3;
-            if(board[row][col].equalsIgnoreCase("X" ) || board[row][col].equalsIgnoreCase("O")) {
+
+            if (board[row][col].equalsIgnoreCase("X") || board[row][col].equalsIgnoreCase("O")) {
                 System.out.println("This position is already filled. Please select another one");
-            }
-            else {
+            } else {
                 board[row][col] = "X";
+
+                if (checkGameOver(board)) {
+                    System.out.println("Game over! You won!");
+                    return;
+                }
+
+                int computerPosition;
+                int computerRow, computerCol;
+
+                do {
+                    computerPosition = random.nextInt(9);
+                    computerRow = computerPosition / 3;
+                    computerCol = computerPosition % 3;
+                } while (board[computerRow][computerCol].equalsIgnoreCase("X") || board[computerRow][computerCol].equalsIgnoreCase("O"));
+
+                board[computerRow][computerCol] = "O";
+
+
+                if (checkGameOver(board)) {
+                    System.out.println("Game over! Computer won!");
+                    return;
+                }
             }
         } else {
             System.out.println("Invalid position. Remember the number must be between 1 and 9.");
         }
     }
-
-    /* private static boolean haveWon(String[][] board) {
-
-        return true;
-    } */
-
 
 }
