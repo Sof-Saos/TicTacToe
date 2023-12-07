@@ -27,7 +27,18 @@ public class Game {
                     }
                     break;
                 case 2:
-                    System.out.println("Coming soon.");
+                    while (!gameOver) {
+                        printBoard(board);
+                        System.out.print("\u001B[35m" + "Player one:" + "\u001B[0m" + " please enter a position: ");
+                        int positionPlayer1 = sc.nextInt();
+                        twoPlayerGamePlayer1(board, positionPlayer1);
+                        printBoard(board);
+
+                        System.out.println("");
+                        System.out.print("\u001B[35m" + "Player two:" + "\u001B[0m" + " please enter a position: ");
+                        int positionPlayer2 = sc.nextInt();
+                        twoPlayerGamePlayer2(board, positionPlayer2);
+                    }
                     break;
                 case 3:
                     System.out.println("Thank you for playing Tic-Tac-Toe!");
@@ -38,30 +49,6 @@ public class Game {
                     break;
             }
         } while (!sessionOver);
-    }
-
-    private static boolean checkGameOver(String[][] board) {
-        boolean result = false;
-
-        //Verify diagonals
-        if(board[0][0].equalsIgnoreCase(board[1][1]) && board[1][1].equalsIgnoreCase(board[2][2]) || board[0][2].equalsIgnoreCase(board[1][1]) && board[1][1].equalsIgnoreCase(board[2][0])){
-            result = true;
-        }
-
-        //Verify horizontals
-        if(board[1][0].equalsIgnoreCase(board[1][1]) && board[1][1].equalsIgnoreCase(board[1][2])
-        || board[0][0].equalsIgnoreCase(board[0][1]) && board[0][1].equalsIgnoreCase(board[0][2])
-        || board[2][0].equalsIgnoreCase(board[2][1]) && board[2][1].equalsIgnoreCase(board[2][2]) ) {
-            result = true;
-        }
-
-        //verify verticals
-        if(board[0][0].equalsIgnoreCase(board[1][0]) && board[1][0].equalsIgnoreCase(board[2][0])
-        || board[0][1].equalsIgnoreCase(board[1][1]) && board[1][1].equalsIgnoreCase(board[2][1])
-        || board[0][2].equalsIgnoreCase(board[1][2]) && board[1][2].equalsIgnoreCase(board[2][2]) ) {
-            result = true;
-        }
-        return result;
     }
 
     private static void createGameBoard(String[][] board) {
@@ -89,6 +76,30 @@ public class Game {
                 System.out.println("-----------");
             }
         }
+    }
+
+    private static boolean checkGameOver(String[][] board) {
+        boolean result = false;
+
+        //Verify diagonals
+        if(board[0][0].equalsIgnoreCase(board[1][1]) && board[1][1].equalsIgnoreCase(board[2][2]) || board[0][2].equalsIgnoreCase(board[1][1]) && board[1][1].equalsIgnoreCase(board[2][0])){
+            result = true;
+        }
+
+        //Verify horizontals
+        if(board[1][0].equalsIgnoreCase(board[1][1]) && board[1][1].equalsIgnoreCase(board[1][2])
+                || board[0][0].equalsIgnoreCase(board[0][1]) && board[0][1].equalsIgnoreCase(board[0][2])
+                || board[2][0].equalsIgnoreCase(board[2][1]) && board[2][1].equalsIgnoreCase(board[2][2]) ) {
+            result = true;
+        }
+
+        //verify verticals
+        if(board[0][0].equalsIgnoreCase(board[1][0]) && board[1][0].equalsIgnoreCase(board[2][0])
+                || board[0][1].equalsIgnoreCase(board[1][1]) && board[1][1].equalsIgnoreCase(board[2][1])
+                || board[0][2].equalsIgnoreCase(board[1][2]) && board[1][2].equalsIgnoreCase(board[2][2]) ) {
+            result = true;
+        }
+        return result;
     }
 
     private static void onePlayerGame(String[][] board, int x) {
@@ -133,4 +144,49 @@ public class Game {
         }
     }
 
+    private static void twoPlayerGamePlayer1(String board[][], int player1) {
+        player1 = player1 - 1;
+
+        if (player1 >= 0 && player1 < 9) {
+            int rowPlayer1 = player1 / 3;
+            int colPlayer1 = player1 % 3;
+
+            if (board[rowPlayer1][colPlayer1].equalsIgnoreCase("X") || board[rowPlayer1][colPlayer1].equalsIgnoreCase("O")) {
+                System.out.println("This position is already filled. Please select another one");
+            } else {
+                board[rowPlayer1][colPlayer1] = "X";
+
+                if (checkGameOver(board)) {
+                    System.out.println("\u001B[32m" + "Game over! Player 1 won! \uD83D\uDE00" + "\u001B[0m");
+                    gameOver = true;
+                    return;
+                }
+            }
+        } else {
+            System.out.println("Invalid position. Remember the number must be between 1 and 9.");
+        }
+    }
+
+    private static void twoPlayerGamePlayer2(String board[][], int player2) {
+        player2 = player2 - 1;
+
+        if (player2 >= 0 && player2 < 9) {
+                int rowPlayer2;
+                int colPlayer2;
+                do {
+                    rowPlayer2 = player2 / 3;
+                    colPlayer2 = player2 % 3;
+                } while (board[rowPlayer2][colPlayer2].equalsIgnoreCase("X") || board[rowPlayer2][colPlayer2].equalsIgnoreCase("O"));
+
+                board[rowPlayer2][colPlayer2] = "O";
+
+                if (checkGameOver(board)) {
+                    System.out.println("\u001B[32m" + "Game over! Player 2 won! \uD83D\uDE00" + "\u001B[0m");
+                    gameOver = true;
+                    return;
+                }
+        } else {
+            System.out.println("Invalid position. Remember the number must be between 1 and 9.");
+        }
+    }
 }
