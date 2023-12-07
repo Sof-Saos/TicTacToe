@@ -2,37 +2,42 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class Game {
+    private static boolean gameOver = false;
     public static void main(String[] args) {
         String board[][] = new String[3][3];
         createGameBoard(board);
         Scanner sc = new Scanner(System.in);
+        boolean sessionOver = false;
 
-        boolean gameOver = false;
-        while (!gameOver) {
-            System.out.println("\u001B[32m" + "Welcome to Tic-Tac-Toe Java!" + "\u001B[0m");
-
-            if (!gameOver) {
-                printBoard(board);
-                System.out.println("\u001B[34m" + "1. " + "\u001B[0m" + "One player mode");
-                System.out.println("\u001B[34m" + "2. " + "\u001B[0m" + "Two players mode");
-                System.out.print("Please select the game mode (enter the number): ");
-                int option = sc.nextInt();
-
-                if (option == 1) {
+        System.out.println("\u001B[34m" + "Welcome to Tic-Tac-Toe Java!" + "\u001B[0m");
+        do {
+            printBoard(board);
+            System.out.println("\u001B[34m" + "1. " + "\u001B[0m" + "One player mode");
+            System.out.println("\u001B[34m" + "2. " + "\u001B[0m" + "Two players mode");
+            System.out.println("\u001B[34m" + "3. " + "\u001B[0m" + "Exit");
+            System.out.print("Please select the game mode (enter the number): ");
+            int option = sc.nextInt();
+            switch (option) {
+                case 1:
                     while (!gameOver) {
                         printBoard(board);
                         System.out.print("Please enter a position: ");
                         int position = sc.nextInt();
                         onePlayerGame(board, position);
                     }
-                } else if (option == 2) {
+                    break;
+                case 2:
                     System.out.println("Coming soon.");
-                } else {
+                    break;
+                case 3:
+                    System.out.println("Thank you for playing Tic-Tac-Toe!");
+                    sessionOver = true;
+                    break;
+                default:
                     System.out.println("Invalid option, please select another one.");
-                }
+                    break;
             }
-            System.out.println("Thank you for playing Tic-Tac-Toe!");
-        }
+        } while (!sessionOver);
     }
 
     private static boolean checkGameOver(String[][] board) {
@@ -100,7 +105,8 @@ public class Game {
                 board[row][col] = "X";
 
                 if (checkGameOver(board)) {
-                    System.out.println("Game over! You won!");
+                    System.out.println("\u001B[32m" + "Game over! You won! \uD83D\uDE00" + "\u001B[0m");
+                    gameOver = true;
                     return;
                 }
 
@@ -117,7 +123,8 @@ public class Game {
 
 
                 if (checkGameOver(board)) {
-                    System.out.println("Game over! Computer won!");
+                    System.out.println("\u001B[31m" + "Game over! Computer won! \uD83D\uDE14" + "\u001B[0m");
+                    gameOver = true;
                     return;
                 }
             }
